@@ -1,7 +1,7 @@
 # Topological Correction of Infant Cortical Surfaces Using Anatomically Constrained Convolutional Neural Network
 This program is used for topological correction with the Anatomically Constrained Convolutional Neural Network
 
-unet_ac.py is used for training the network
+ac_unet.py is used for training the network
 
 inferring_new_labels.py is used for inferring the new labels of topological defect regions
 --test_dir: the path of the patch, which extract based on located topological defect regions
