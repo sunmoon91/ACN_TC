@@ -234,9 +234,9 @@ class ACUNET:
         conv7_3 = self.conv3d(bn7_2, W_conv7_3) + bias7_3
         bn7_3 = tf.nn.relu(self.batchnorm3d(conv7_3, is_training=myis_traing, name='layer7_3'))
 
-        W_conv7_4 = self.weight_variable([1, 1, 1, 64, 1])
-        bias7_4 = self.bias_variable([1])
-        conv7_4 = tf.nn.sigmoid(self.conv3d(bn7_3, W_conv7_4) + bias7_4)
+        W_conv7_4 = self.weight_variable([1, 1, 1, 64, 4])
+        bias7_4 = self.bias_variable([4])
+        conv7_4 = tf.nn.softmax(self.conv3d(bn7_3, W_conv7_4) + bias7_4)
 
         init = tf.global_variables_initializer()
         saver = tf.train.Saver()

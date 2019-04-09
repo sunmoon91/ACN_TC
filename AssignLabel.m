@@ -45,8 +45,10 @@ for j=1:length(idx)
     x=xx(j);
     y=yy(j);
     z=zz(j);
-    temp_bg(x-w:x+w,y-w:y+w,z-w:z+w) = temp_bg(x-w:x+w,y-w:y+w,z-w:z+w) + ones(patchsize,patchsize,patchsize)-tranxz(reshape(new_labels(j,:,:,:,1),[patchsize,patchsize,patchsize]));
-    temp_wm(x-w:x+w,y-w:y+w,z-w:z+w) = temp_wm(x-w:x+w,y-w:y+w,z-w:z+w) + tranxz(reshape(new_labels(j,:,:,:,1),[patchsize,patchsize,patchsize])); 
+    temp_bg(x-w:x+w,y-w:y+w,z-w:z+w) = temp_bg(x-w:x+w,y-w:y+w,z-w:z+w) + tranxz(reshape(new_labels(j,:,:,:,1),[patchsize,patchsize,patchsize]));
+	temp_csf(x-w:x+w,y-w:y+w,z-w:z+w) = temp_wm(x-w:x+w,y-w:y+w,z-w:z+w) + tranxz(reshape(new_labels(j,:,:,:,2),[patchsize,patchsize,patchsize])); 
+	temp_gm(x-w:x+w,y-w:y+w,z-w:z+w) = temp_wm(x-w:x+w,y-w:y+w,z-w:z+w) + tranxz(reshape(new_labels(j,:,:,:,3),[patchsize,patchsize,patchsize])); 
+    temp_wm(x-w:x+w,y-w:y+w,z-w:z+w) = temp_wm(x-w:x+w,y-w:y+w,z-w:z+w) + tranxz(reshape(new_labels(j,:,:,:,4),[patchsize,patchsize,patchsize])); 
 end
 
 for j=1:length(idx)
@@ -54,14 +56,13 @@ for j=1:length(idx)
     y=yy(j);
     z=zz(j);
     t_bg = temp_bg(x,y,z);
+	t_csf = temp_csf(x,y,z);
+	t_gm = temp_gm(x,y,z);
     t_wm = temp_wm(x,y,z);
+    [~,idx]=max([t_bg,t_csf,t_gm,t_wm]);
+	labels_intensity=[0,10,150,250];
     
-    if t_wm > t_bg
-        resultVolume(x,y,z)=250;
-    else
-        if resultVolume(x,y,z)==250
-            resultVolume(x,y,z)=150;
-        end
+    resultVolume(x,y,z)=labels_intensity(idx);
     end  
 end
 
